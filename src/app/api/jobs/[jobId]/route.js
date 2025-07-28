@@ -2,7 +2,7 @@ import {NextResponse, NextRequest} from 'next/server';
 import {auth} from "@/auth";
 import {Job} from "@/lib/models"
 import { Application } from '@/lib/models';
-import {connectDB} from "@/lib/dbConnection";
+import connectDB from "@/lib/dbConnection";
 
 
 
