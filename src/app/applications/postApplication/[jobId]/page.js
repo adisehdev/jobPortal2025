@@ -27,7 +27,7 @@ export default function PostApplicationPage() {
     const fetchAllApplications = async () => {
       try {
         const res = await fetch(
-          "http://localhost:3000/api/applications/jobSeekerApps"
+          `${process.env.NEXT_PUBLIC_API_URL}/api/applications/jobSeekerApps`
         );
         if (!res.ok) {
           throw new Error("Failed to fetch applications");
@@ -106,7 +106,7 @@ export default function PostApplicationPage() {
       });
 
       setSubmitDisabled(true)
-      const response = await fetch("http://localhost:3000/api/applications", {
+      const response = await fetch(`${process.env.API_URL}/api/applications`, {
         method: "POST",
         body: formData,
         headers: {

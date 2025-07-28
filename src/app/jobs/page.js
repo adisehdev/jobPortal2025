@@ -28,7 +28,9 @@ export default function JobsPage() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch("http://localhost:3000/api/jobs");
+        console.log("api url : " , process.env.NEXT_PUBLIC_API_URL);
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs`);
 
         if (!response.ok) {
           const errorData = await response.json();

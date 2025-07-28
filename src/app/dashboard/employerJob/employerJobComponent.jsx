@@ -38,7 +38,7 @@ export default function DashboardEmployer() {
             setLoading(true);
             setError(null);
             
-            const res = await fetch("http://localhost:3000/api/jobs/employerJobs");
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs/employerJobs`);
             if (!res.ok) {
                 throw new Error("Failed to fetch employer jobs");
             }
@@ -65,7 +65,7 @@ export default function DashboardEmployer() {
             }
             setLoading(true);
             setError(null);
-            const res = await fetch(`http://localhost:3000/api/jobs/${jobId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs/${jobId}`, {
                 method: "DELETE",
             });
             if (!res.ok) {

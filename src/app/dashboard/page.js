@@ -1,7 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import dummyJobs from "@/utils/jobsArr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import DashboardEmployer from "./employerJob/employerJobComponent";

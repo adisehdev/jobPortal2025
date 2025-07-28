@@ -30,7 +30,7 @@ export default function DashboardJobSeeker() {
       setLoading(true);
       setError(null);
       const res = await fetch(
-        "http://localhost:3000/api/applications/jobSeekerApps"
+        `${process.env.NEXT_PUBLIC_API_URL}/api/applications/jobSeekerApps`
       );
       if (!res.ok) {
         throw new Error("Failed to fetch job seeker applications");
@@ -65,7 +65,7 @@ export default function DashboardJobSeeker() {
       setLoading(true);
       setError(null);
       const res = await fetch(
-        `http://localhost:3000/api/applications/${appId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/applications/${appId}`,
         {
           method: "DELETE",
         }

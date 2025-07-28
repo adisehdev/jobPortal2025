@@ -22,7 +22,7 @@ export default function ReviewAppPage() {
                     router.push("/login");
                     return;
                 }
-                const res = await fetch(`/api/applications/${appId}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/applications/${appId}`);
                 if (!res.ok) throw new Error("Failed to fetch application details");
                 const data = await res.json();
                 setApplication(data);
@@ -41,7 +41,7 @@ export default function ReviewAppPage() {
         setSubmitting(true);
         setError(null);
         try {
-            const res = await fetch(`/api/applications/${appId}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/applications/${appId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ applicationStatus: status, reviewedOn: new Date() }),
@@ -88,7 +88,7 @@ export default function ReviewAppPage() {
     const handleAIReview = async()=>{
       console.log("ai review started")
       try {
-        const res = await fetch(`http://localhost:3000/api/applications/${appId}/analyze`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/applications/${appId}/analyze`, {
           method : "POST",
           headers : {
             "Content-Type" : "application/json"

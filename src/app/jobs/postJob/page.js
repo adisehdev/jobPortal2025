@@ -46,7 +46,7 @@ export default function PostJobPage() {
     //alert("Form submitted successfully!" + JSON.stringify(formData, null, 2));
     try {
       
-      const res = await fetch("http://localhost:3000/api/jobs", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
