@@ -3,7 +3,10 @@ import { auth } from "./auth";
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/applications/:path*", "/jobs/:path*","/review/:appId*"],
+  matcher: ["/dashboard/:path*", "/applications/:path*", "/jobs/:path*","/review/:appId*",// Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',],
 };
 
 export async function middleware(request) {
