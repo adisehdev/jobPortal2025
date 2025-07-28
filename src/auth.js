@@ -1,7 +1,5 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import { connectDB } from "./lib/dbConnection";
 import { User } from "./lib/models/userModel";
 import bcryptjs from "bcryptjs";
 

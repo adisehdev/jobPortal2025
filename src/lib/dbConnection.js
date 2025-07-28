@@ -1,32 +1,27 @@
-import mongoose, { connect } from 'mongoose';
 
-const MONGODB_URI = process.env.MONGO_URI;
+import mongoose from "mongoose";
 
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable');
-}
 
-/** 
- * Cached connection for MongoDB.
- */
-let cached = global.mongoose;
+const connectDB = async () => {
+    
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
+    try {
+        //console.log(dbString)
+        // if(mongoose.connection.readyState === "1") { //if db is already connected
+        //     // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+            
+        //     //console.log("db already connected");
+        //     return;
+        // }
+        const result  = await mongoose.connect(process.env.MONGO_URI);
+        return result;
+        //console.log("db connected");
+        
+    } catch (error) {
+        //console.log(error);
+        process.exit(1);
+    }
+};
 
-async function connectDB() {
-  if (cached.conn) {
-    return cached.conn;
-  }
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
-      return mongoose;
-    });
-  }
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
-
-export default connectDB
+export default connectDB;
