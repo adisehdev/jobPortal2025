@@ -1,7 +1,7 @@
 import connectDB from "@/lib/dbConnection";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { Application } from "@/lib/models";
+import Application from "@/lib/models/applicationModel";
 
 export async function GET(req,{params}) {
     try {

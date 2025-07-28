@@ -1,7 +1,7 @@
 import {NextResponse, NextRequest} from 'next/server';
 import {auth} from "@/auth";
-import {Job} from "@/lib/models"
-import { Application } from '@/lib/models';
+import Job from '@/lib/models/jobModel';
+import Application from '@/lib/models/applicationModel';
 import connectDB from "@/lib/dbConnection";
 
 

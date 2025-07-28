@@ -2,7 +2,7 @@ import mongoose,{Schema} from "mongoose";
 
 
 
-export const jobSchema = new mongoose.Schema(
+const jobSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -70,6 +70,9 @@ export const jobSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+const Job = mongoose.models?.Job || mongoose.model("Job", jobSchema);
+export default Job;
 
 
 

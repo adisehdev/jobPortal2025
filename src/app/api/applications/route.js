@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { Application } from "@/lib/models";
-import { Job } from "@/lib/models";
+import Application from "@/lib/models/applicationModel";
+import Job from "@/lib/models/jobModel";
 import connectDB from "@/lib/dbConnection";
 import { v2 as cloudinary } from 'cloudinary';
 import streamifier from 'streamifier'; // Import streamifier

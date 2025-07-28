@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { Application } from "@/lib/models";
+import Application from "@/lib/models/applicationModel";
 import connectDB from "@/lib/dbConnection";
 
 

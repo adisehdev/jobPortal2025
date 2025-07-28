@@ -1,6 +1,6 @@
 import { NextRequest,NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { Job } from "@/lib/models";
+import Job from "@/lib/models/jobModel";
 import connectDB from "@/lib/dbConnection";
 
 
