@@ -23,7 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         let user = null;
 
         try {
-          await connectDB();
+          //await connectDB();
           // Find user by email
           user = await User.findOne({ email,role }).select("+password");
 
