@@ -59,5 +59,7 @@ export async function middleware(request) {
   if (isCommonPath && role !== "Employer" && role !== "Job Seeker") {
     return NextResponse.redirect(new URL("/", request.url));
   }
+
+  return NextResponse.next();
 }
 export default middleware;
