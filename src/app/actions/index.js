@@ -34,6 +34,7 @@ export async function credentialLogin(formData) {
             error: response?.error || null,
         };
     } catch (error) {
+        console.error("Error during login:", error);
         return {
             isVerified: false,
             error: "Invalid credentials. Please try again.",
