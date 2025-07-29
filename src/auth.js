@@ -117,7 +117,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   // Ensure these environment variables are set
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   
   // Add debug in development
   debug: process.env.NODE_ENV === "development",
