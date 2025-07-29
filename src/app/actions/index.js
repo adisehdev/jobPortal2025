@@ -1,5 +1,5 @@
 "use server"
-import { signIn} from "@/auth";
+import {signIn} from "@/auth";
 
 
 
@@ -12,10 +12,7 @@ export async function credentialLogin(formData) {
         const role = formData.get("role");
 
         if (!email || !password || !role) {
-            return {
-                isVerified: false,
-                error: "All fields are required.",
-            };
+            throw new Error("Email, password, and role are required.");
         }
 
         
@@ -27,14 +24,14 @@ export async function credentialLogin(formData) {
             redirect : false,
         })
 
-        //console.log("signIn response:", response);
+        
 
         return {
             isVerified: true,
             error: response?.error || null,
         };
     } catch (error) {
-        console.error("Error during login:", error);
+        
         return {
             isVerified: false,
             error: error,
