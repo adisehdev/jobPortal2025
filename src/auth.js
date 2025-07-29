@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
-import connectDB from "./lib/dbConnection";
+//import connectDB from "./lib/dbConnection";
 import User from "./lib/models/userModel";
 import bcryptjs from "bcryptjs";
 
@@ -23,7 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         let user = null;
 
         try {
-          await connectDB();
+          //await connectDB();
           // Find user by email
           user = await User.findOne({ email,role }).select("+password");
 
