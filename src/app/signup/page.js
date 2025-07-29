@@ -61,6 +61,10 @@ export default function SignupPage() {
     }
     catch (error) {
       console.error("Error during registration:", error);
+      setEmail("");
+      setPassword("");
+      setContactNumber("");
+      setRole("");
       setError("An error occurred while signing up. Please try again.");
     }
 

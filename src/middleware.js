@@ -36,7 +36,7 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  const publicPaths = ["/login", "/signup", "/", "/jobs", "/api/jobs"];
+  const publicPaths = ["/login", "/signup", "/", "/jobs", "/api/jobs","/api/auth/register"];
   const employerPaths = [
     "/jobs/postJob",
     "/jobs/modifyJob",
@@ -57,7 +57,7 @@ export async function middleware(request) {
 
   if (publicPaths.includes(currPath)) {
     //check if the path is public
-    if (isAuthorized && (currPath === "/login" || currPath === "/register")) {
+    if (isAuthorized && (currPath === "/login" || currPath === "/signup")) {
       //if user is already logged in and trying to access login or register page
       return NextResponse.redirect(new URL("/", request.url));
     }

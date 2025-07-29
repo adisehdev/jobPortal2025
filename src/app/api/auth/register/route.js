@@ -9,6 +9,8 @@ export async function POST(request) {
 
     const { email, password, role, contactNumber } = await request.json();
 
+    console.log("Received registration data:", { email, password, role, contactNumber });
+
     if (!email || !password || !role) {
       // Validate input
       return NextResponse.json(
