@@ -18,7 +18,7 @@ export default function JobPage() {
 
             try {
                 setLoading(true);
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs/${id}`);
+                const response = await fetch(`/api/jobs/${id}`);
                 if (!response.ok) {
                     throw new Error(response.statusText || "Failed to fetch job details");
                 }

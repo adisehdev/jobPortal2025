@@ -17,7 +17,7 @@ export default function ReviewPage() {
     useEffect(() => {
         const fetchApplications = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/applications/employerApps`);
+                const res = await fetch(`/api/applications/employerApps`);
                 if (!res.ok) {
                     throw new Error("Failed to fetch applications");
                 }

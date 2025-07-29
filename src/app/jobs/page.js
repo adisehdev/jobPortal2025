@@ -22,7 +22,7 @@ export default function JobsPage() {
       setLoading(true);
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/jobs`
+          `/api/jobs`
         );
         if (!res.ok) throw new Error((await res.json()).message || "Fetch failed");
         setAllJobs(await res.json());

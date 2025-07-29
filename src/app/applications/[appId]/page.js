@@ -34,7 +34,7 @@ export default function ApplicationPage() {
                 return;
             }
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/applications/${appId}`);
+                const res = await fetch(`/api/applications/${appId}`);
                 if (!res.ok) {
                     throw new Error("Failed to fetch application details");
                 }

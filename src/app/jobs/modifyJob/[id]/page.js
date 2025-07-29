@@ -36,7 +36,7 @@ export default function ModifyJobPage() {
             try {
                 setLoading(true);
                 setError(null);
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs/${id}`);
+                const res = await fetch(`/api/jobs/${id}`);
                 if (!res.ok) {
                     throw new Error("Failed to fetch job details");
                 }
@@ -77,7 +77,7 @@ export default function ModifyJobPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jobs/${id}`, {
+            const res = await fetch(`/api/jobs/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

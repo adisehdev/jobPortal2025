@@ -30,7 +30,7 @@ export default function DashboardJobSeeker() {
       setLoading(true);
       setError(null);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/applications/jobSeekerApps`
+        `/api/applications/jobSeekerApps`
       );
       if (!res.ok) {
         throw new Error("Failed to fetch job seeker applications");
