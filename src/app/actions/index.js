@@ -27,7 +27,8 @@ export async function credentialLogin(formData) {
             email: email,
             password: password,
             role: role,
-            redirect: false, // Prevent automatic redirection
+            redirect: false, // Prevent automatic redirection,
+            redirectTo : process.env.AUTH_URL || "/"
             
         })
 
