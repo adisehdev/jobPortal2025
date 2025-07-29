@@ -1,6 +1,6 @@
 "use server"
-import { signIn, signOut } from "@/auth";
-import { CredentialsSignin } from "next-auth";
+import { signIn} from "@/auth";
+
 
 
 export async function credentialLogin(formData) {
@@ -37,7 +37,7 @@ export async function credentialLogin(formData) {
         console.error("Error during login:", error);
         return {
             isVerified: false,
-            error: "Invalid credentials. Please try again.",
+            error: error.message || "Invalid credentials. Please try again.",
         }
     }
 }
