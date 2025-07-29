@@ -16,12 +16,19 @@ export async function credentialLogin(formData) {
         }
 
         
+
         
+
+          
+
+        // Sign in the user using NextAuth
+
         const response = await signIn("credentials", {
-            email: formData.get("email"),
-            password: formData.get("password"),
-            role: formData.get("role"),
-            redirect : false,
+            email: email,
+            password: password,
+            role: role,
+            redirect: false, // Prevent automatic redirection
+            
         })
 
         

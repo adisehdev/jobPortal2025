@@ -62,7 +62,7 @@ export default function SignupPage() {
         toast.success("Login successful!",{duration: 3000});
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error during login:", error , error.digest && error.digest);
       setEmail(""); // Clear email field
       setPassword(""); // Clear password field
       setRole(""); // Clear role field
