@@ -6,53 +6,32 @@ import bcryptjs from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
+    // Defines the credentials-based login provider.
     CredentialProvider({
       name: "Credentials",
-      credentials: {
-        email: {},
-        password: {},
-        role: {},
-      },
+      credentials: { email: {}, password: {}, role: {} },
       async authorize({ email, password, role }) {
-        let user = null;
-
         try {
           await connectDB();
-          user = await User.findOne({ email, role }).select("+password");
+          const user = await User.findOne({ email, role }).select("+password");
+          if (!user) return null;
 
-          if (!user) {
-            throw new Error("User not found");
-          }
+          const isPasswordValid = await bcryptjs.compare(password, user.password);
+          if (!isPasswordValid) return null;
 
-          const isPasswordValid = await bcryptjs.compare(
-            password,
-            user.password
-          );
-
-          if (!isPasswordValid) {
-            throw new Error("Invalid password");
-          }
-
+          // Returns user object if authentication is successful.
           return { id: user._id, email: user.email, role: user.role };
         } catch (error) {
-          console.error("Authorization error:", error);
-          // Returning null is enough to signal an error to the client
-          return null;
+          return null; // Return null on any error.
         }
       },
     }),
   ],
-
   session: {
-    strategy: "jwt",
-    maxAge: 3 * 60 * 60, // 3 hours
+    strategy: "jwt", // Use JSON Web Tokens for session management.
   },
-
-  // ✅ NOTE: The complex cookie configuration has been removed.
-  // Auth.js will automatically set secure, httpOnly cookies in production
-  // based on the `AUTH_URL` environment variable. This is simpler and less error-prone.
-
   callbacks: {
+    // Adds user ID and role to the JWT token.
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -60,19 +39,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return token;
     },
+    // Adds user ID and role to the client-side session object.
     async session({ session, token }) {
-      if (token.id) {
+      if (token && session.user) {
         session.user.id = token.id;
-      }
-      if (token.role) {
         session.user.role = token.role;
       }
       return session;
     },
   },
-
-  // Ensure this environment variable is set in Vercel
+  // Reads the secret from environment variables.
   secret: process.env.AUTH_SECRET,
-
-  debug: process.env.NODE_ENV === "development",
 });
