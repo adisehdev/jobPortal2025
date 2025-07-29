@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export const config = {
   // ✅ This matcher protects all routes except for the ones required by Next.js and Auth.js
-  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api/auth|_next/static|favicon.ico).*)"],
 };
 
 export async function middleware(request) {
