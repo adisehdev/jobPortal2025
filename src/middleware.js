@@ -36,7 +36,7 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  const publicPaths = ["/login", "/register", "/", "/jobs", "/api/jobs"];
+  const publicPaths = ["/login", "/signup", "/", "/jobs", "/api/jobs"];
   const employerPaths = [
     "/jobs/postJob",
     "/jobs/modifyJob",
