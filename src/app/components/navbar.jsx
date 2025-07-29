@@ -30,6 +30,8 @@ export default function Navbar() {
     setTheme(newTheme);
   };
 
+  
+
   const notAuthArr = ["Jobs"];
   const authArrEmployer = ["Review", "Post Job", "Dashboard"];
   const authArrJobSeeker = ["Jobs", "Dashboard"];
@@ -47,6 +49,16 @@ export default function Navbar() {
     : "";
 
   console.log("Session Data:", session);
+
+  const handleSignOut = () => {
+    try {
+      signOut();
+      toast.success("Logged Out", { duration: 3000 });
+    } catch (error) {
+      console.error("Error during sign out:", error);
+      toast.error("Failed to log out. Please try again.", { duration: 3000 });
+    }
+  }
 
   return (
     <>
@@ -130,8 +142,7 @@ export default function Navbar() {
                   </a>
                 </li>
                 <li>
-                  <a onClick={() => {signOut()
-                  toast.success("Logged Out",{duration: 3000})}} className="text-error font-bold px-4 py-2 rounded-md">
+                  <a onClick={handleSignOut} className="text-error font-bold px-4 py-2 rounded-md">
                     Logout
                   </a>
                 </li>
