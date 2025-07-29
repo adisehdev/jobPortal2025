@@ -5,7 +5,6 @@ import User from "./lib/models/userModel";
 import bcryptjs from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
- 
   providers: [
     // GoogleProvider configuration (commented out)
     // GoogleProvider({
@@ -25,7 +24,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         try {
           await connectDB();
           // Find user by email
-          user = await User.findOne({ email,role }).select("+password");
+          user = await User.findOne({ email, role }).select("+password");
 
           if (!user) {
             throw new Error("User not found");
@@ -51,10 +50,49 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   
-  // ADD THIS SESSION OBJECT
   session: {
     strategy: "jwt",
     maxAge: 3 * 60 * 60, // 3 hours in seconds
+  },
+
+  // Add these for HTTPS domains
+  useSecureCookies: process.env.NODE_ENV === "production",
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === "production" 
+        ? "__Secure-authjs.session-token" 
+        : "authjs.session-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        domain: process.env.NODE_ENV === "production" 
+          ? process.env.NEXTAUTH_URL?.replace(/https?:\/\//, "").split("/")[0]
+          : undefined,
+      },
+    },
+    callbackUrl: {
+      name: process.env.NODE_ENV === "production" 
+        ? "__Secure-authjs.callback-url" 
+        : "authjs.callback-url",
+      options: {
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+    csrfToken: {
+      name: process.env.NODE_ENV === "production" 
+        ? "__Host-authjs.csrf-token" 
+        : "authjs.csrf-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
   },
 
   callbacks: {
@@ -77,4 +115,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
+
+  // Ensure these environment variables are set
+  secret: process.env.NEXTAUTH_SECRET,
+  
+  // Add debug in development
+  debug: process.env.NODE_ENV === "development",
 });
