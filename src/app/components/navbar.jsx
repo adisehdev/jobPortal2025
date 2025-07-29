@@ -8,8 +8,11 @@ import { signOut } from "next-auth/react";
 import { toast, Toaster } from "react-hot-toast";
 
 
+
 export default function Navbar() {
   const [theme, setTheme] = useState("light");
+  const [finalArr, setFinalArr] = useState([]);
+  const [username, setUsername] = useState("");
   const { data: session } = useSession();
 
   // Initialize theme from localStorage or default to "light"
@@ -23,6 +26,20 @@ export default function Navbar() {
     }
   }, []);
 
+  useEffect(() => {
+    if (session?.user?.role === "Employer") {
+      setFinalArr(["Review", "Post Job", "Dashboard"]);
+    }
+    else if (session?.user?.role === "Job Seeker") {
+      setFinalArr(["Jobs", "Dashboard"]);
+    } else {
+      setFinalArr(["Jobs"]);
+    }
+    if (session?.user?.email) {
+      setUsername(session.user.email.split("@")[0]);
+    }
+  },[session]);
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", newTheme);
@@ -32,23 +49,23 @@ export default function Navbar() {
 
   
 
-  const notAuthArr = ["Jobs"];
-  const authArrEmployer = ["Review", "Post Job", "Dashboard"];
-  const authArrJobSeeker = ["Jobs", "Dashboard"];
+  // const notAuthArr = ["Jobs"];
+  // const authArrEmployer = ["Review", "Post Job", "Dashboard"];
+  // const authArrJobSeeker = ["Jobs", "Dashboard"];
 
-  const finalArr =
-    session?.user?.role === "Employer"
-      ? authArrEmployer
-      : session?.user?.role === "Job Seeker"
-      ? authArrJobSeeker
-      : notAuthArr;
+  // const finalArr =
+  //   session?.user?.role === "Employer"
+  //     ? authArrEmployer
+  //     : session?.user?.role === "Job Seeker"
+  //     ? authArrJobSeeker
+  //     : notAuthArr;
 
-  // Extract username from email
-  const username = session?.user?.email
-    ? session.user.email.split("@")[0]
-    : "";
+  // // Extract username from email
+  // const username = session?.user?.email
+  //   ? session.user.email.split("@")[0]
+  //   : "";
 
-  console.log("Session Data:", session);
+  console.log("Session Data navbar : ", session);
 
   const handleSignOut = () => {
     try {
