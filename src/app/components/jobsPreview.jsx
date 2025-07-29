@@ -7,7 +7,8 @@ export default async function JobsPreview() {
   const session = await auth();
 
   try {
-    const response  = await fetch("http://localhost:3000/api/jobs");
+    console.log("api url", process.env.API_URL);
+    const response  = await fetch(`http://localhost:3000/api/jobs`)
     if (!response.ok) {
       throw new Error("Failed to fetch jobs");
     }

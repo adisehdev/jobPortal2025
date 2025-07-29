@@ -1,30 +1,51 @@
 // middleware.js (or .ts) at project root
-import { auth } from "./auth";
+//import { auth } from "./auth";
+import {getToken} from "next-auth/jwt"
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/applications/:path*", "/jobs/:path*","/review/:appId*",// Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+  matcher: [
+    "/dashboard/:path*",
+    "/applications/:path*",
+    "/jobs/:path*",
+    "/review/:appId*", // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
-    '/(api|trpc)(.*)',],
+    "/(api|trpc)(.*)",
+  ],
 };
 
 export async function middleware(request) {
-  const session = await auth();
+  //const session = await auth();
+
+  const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
+  
+
+  //console.log("token", token);
+
   const currPath = request.nextUrl.pathname;
 
-  const isAuthorized = session && session.user;
-  const role = session?.user?.role;
+  const isAuthorized = token && token.email;
+  const role = token ? token.role : null;
 
-  if(currPath.startsWith("/review") && (!isAuthorized || role !== "Employer")) {
+  if (
+    currPath.startsWith("/review") &&
+    (!isAuthorized || role !== "Employer")
+  ) {
     //if user is not authorized or not an employer and trying to access review page
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  const publicPaths = ["/login", "/register", "/", "/jobs","/api/jobs"];
-  const employerPaths = ["/jobs/postJob", "/jobs/modifyJob", "/review/:appId","/api/applications/employerApps","/api/jobs/employerJobs"];
-  const jobSeekerPaths = ["applications","/api/applications/jobSeekerApps"];
-  const commonPaths = ["/dashboard","/api/applications","/api/jobs"];
+  const publicPaths = ["/login", "/register", "/", "/jobs", "/api/jobs"];
+  const employerPaths = [
+    "/jobs/postJob",
+    "/jobs/modifyJob",
+    "/review/:appId",
+    "/api/applications/employerApps",
+    "/api/jobs/employerJobs",
+  ];
+  const jobSeekerPaths = ["applications", "/api/applications/jobSeekerApps"];
+  const commonPaths = ["/dashboard", "/api/applications", "/api/jobs"];
 
   const isEmployerPath = employerPaths.some((path) =>
     currPath.startsWith(path)
@@ -36,7 +57,7 @@ export async function middleware(request) {
 
   if (publicPaths.includes(currPath)) {
     //check if the path is public
-    if(isAuthorized && (currPath === "/login" || currPath === "/register")) {
+    if (isAuthorized && (currPath === "/login" || currPath === "/register")) {
       //if user is already logged in and trying to access login or register page
       return NextResponse.redirect(new URL("/", request.url));
     }

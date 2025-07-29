@@ -32,12 +32,14 @@ export default function PostApplicationPage() {
         if (!res.ok) {
           throw new Error("Failed to fetch applications");
         }
-        const data = await res.json();
+        let data = await res.json();
+        
+        
 
         if (
           data.some(
             (app) =>
-              app.jobId._id === jobId &&
+              app.jobId && app.jobId._id === jobId &&
               app.applicantData.userId === session.user.id
           )
         ) {

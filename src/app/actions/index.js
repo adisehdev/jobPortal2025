@@ -2,6 +2,7 @@
 import { signIn, signOut } from "@/auth";
 import { CredentialsSignin } from "next-auth";
 
+
 export async function credentialLogin(formData) {
 
     try {
@@ -39,3 +40,4 @@ export async function credentialLogin(formData) {
         }
     }
 }
+
