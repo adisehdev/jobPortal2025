@@ -4,7 +4,7 @@ import User from "./lib/models/userModel";
 import bcryptjs from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  secret: process.env.AUTH_SECRET,
+ 
   providers: [
     // GoogleProvider configuration (commented out)
     // GoogleProvider({

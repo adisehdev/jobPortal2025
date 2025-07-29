@@ -12,7 +12,11 @@ export async function credentialLogin(formData) {
         const role = formData.get("role");
 
         if (!email || !password || !role) {
-            throw new Error("Email, password, and role are required.");
+            //throw new Error("Email, password, and role are required.");
+            return {
+                isVerified: false,
+                error: "Email, password, and role are required.",
+            };
         }
 
         
@@ -24,9 +28,9 @@ export async function credentialLogin(formData) {
         // Sign in the user using NextAuth
 
         const response = await signIn("credentials", {
-            email: email,
-            password: password,
-            role: role,
+            email: formData.get("email"),
+            password: formData.get("password"),
+            role: formData.get("role"),
             redirect: false, // Prevent automatic redirection,
             
             
