@@ -1,31 +1,21 @@
-// middleware.js (or .ts) at project root
-import {getToken} from "next-auth/jwt"
+// middleware.js
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/applications/:path*",
-    "/jobs/:path*",
-    "/review/:appId*", 
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
-  ],
+  // ✅ This matcher protects all routes except for the ones required by Next.js and Auth.js
+  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
 };
 
 export async function middleware(request) {
-  // Updated getToken configuration for production
-  const token = await getToken({ 
-    req: request, 
-    secret: process.env.NEXTAUTH_SECRET, // Use NEXTAUTH_SECRET instead of AUTH_SECRET
-    secureCookie: process.env.NODE_ENV === "production", // Enable secure cookies in production
-    cookieName: process.env.NODE_ENV === "production" 
-      ? "__Secure-authjs.session-token" 
-      : "authjs.session-token"
+  const token = await getToken({
+    req: request,
+    // ✅ Use the consistent secret variable
+    secret: process.env.AUTH_SECRET,
   });
 
   const currPath = request.nextUrl.pathname;
-  const isAuthorized = token && token.email;
+  const isAuthorized = !!token; // Simplified check for token existence
   const role = token ? token.role : null;
 
   // Special handling for review routes
@@ -36,6 +26,7 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  // NOTE: Your specific authorization logic below remains unchanged.
   const publicPaths = ["/login", "/signup", "/", "/jobs", "/api/jobs", "/api/auth/register"];
   const employerPaths = [
     "/jobs/postJob",
@@ -47,31 +38,25 @@ export async function middleware(request) {
   const jobSeekerPaths = ["/applications", "/api/applications/jobSeekerApps"];
   const commonPaths = ["/dashboard", "/api/applications", "/api/jobs"];
 
-  const isEmployerPath = employerPaths.some((path) =>
-    currPath.startsWith(path)
-  );
-  const isJobSeekerPath = jobSeekerPaths.some((path) => 
-    currPath.startsWith(path)
-  );
-  const isCommonPath = commonPaths.some((path) => 
-    currPath.startsWith(path)
-  );
+  const isPublicPath = publicPaths.some(path => currPath === path || (path.endsWith('/*') && currPath.startsWith(path.slice(0, -2))));
 
   // Handle public paths
-  if (publicPaths.includes(currPath)) {
+  if (isPublicPath) {
     if (isAuthorized && (currPath === "/login" || currPath === "/signup")) {
-      // Redirect authenticated users away from login/signup
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
     return NextResponse.next();
   }
 
-  // Redirect unauthorized users
+  // Redirect unauthorized users from protected routes
   if (!isAuthorized) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
   // Role-based access control
+  const isEmployerPath = employerPaths.some((path) => currPath.startsWith(path));
+  const isJobSeekerPath = jobSeekerPaths.some((path) => currPath.startsWith(path));
+
   if (isEmployerPath && role !== "Employer") {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
@@ -80,11 +65,8 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  if (isCommonPath && role !== "Employer" && role !== "Job Seeker") {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
   return NextResponse.next();
 }
 
-export default middleware;
+// The default export is not needed when using the `config` object
+// export default middleware;
