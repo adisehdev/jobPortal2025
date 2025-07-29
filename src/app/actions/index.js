@@ -37,7 +37,7 @@ export async function credentialLogin(formData) {
         console.error("Error during login:", error);
         return {
             isVerified: false,
-            error: error,
+            error: error.digest || "An error occurred during login.",
         }
     }
 }
