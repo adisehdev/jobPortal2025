@@ -17,7 +17,7 @@ export async function middleware(request) {
   // Updated getToken configuration for production
   const token = await getToken({ 
     req: request, 
-    secret: process.env.NEXTAUTH_SECRET, // Use NEXTAUTH_SECRET instead of AUTH_SECRET
+    secret: process.env.AUTH_SECRET, // Use NEXTAUTH_SECRET instead of AUTH_SECRET
     secureCookie: process.env.NODE_ENV === "production", // Enable secure cookies in production
     cookieName: process.env.NODE_ENV === "production" 
       ? "__Secure-authjs.session-token" 
