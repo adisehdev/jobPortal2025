@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { BiHide, BiShow } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { credentialLogin } from "../actions";
 import { useSession } from "next-auth/react";
@@ -11,6 +12,7 @@ import { Toaster } from "react-hot-toast";
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
@@ -44,14 +46,18 @@ export default function SignupPage() {
     return null; // Or a simple message like "Redirecting..."
   }
 
-
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
     const formData = new FormData(event.target);
     setError(""); // Reset error state
 
     try {
-      console.log("Login init : " + "email:", email + " password:", password + " role:", role);
+      console.log(
+        "Login init : " + "email:",
+        email + " password:",
+        password + " role:",
+        role
+      );
       const response = await credentialLogin(formData);
       console.log("Login response : ", response);
 
@@ -60,12 +66,12 @@ export default function SignupPage() {
       } else {
         console.log("Login successful:", response);
         setError(""); // Clear any previous errors
-        
+
         router.push(redirect); // Redirect to home page on success or specified redirect
-        toast.success("Login successful!",{duration: 3000});
+        toast.success("Login successful!", { duration: 3000 });
       }
     } catch (error) {
-      console.error("Error during login:", error , error.digest && error.digest);
+      console.error("Error during login:", error, error.digest && error.digest);
       setEmail(""); // Clear email field
       setPassword(""); // Clear password field
       setRole(""); // Clear role field
@@ -75,8 +81,10 @@ export default function SignupPage() {
 
   return (
     <>
-      <Toaster position="top-center"/>
-      {error && <div className="mx-auto alert alert-error max-w-lg">{error}</div>}
+      <Toaster position="top-center" />
+      {error && (
+        <div className="mx-auto alert alert-error max-w-lg">{error}</div>
+      )}
       <form
         className="flex flex-col items-center max-w-lg min-h-5xl mt-5 mb-25 mx-auto px-8 py-4 rounded-lg border-2 border-base-info"
         noValidate
@@ -101,25 +109,42 @@ export default function SignupPage() {
           <div className="validator-hint text-error">Email is required</div>
         </fieldset>
 
-        {/* Password Field */}
+        {/* Password Field (MODIFIED) */}
         <fieldset className="fieldset w-full">
-          <legend className="fieldset-legend">
-            Password <span className="text-error">*</span>
-          </legend>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input input-bordered input-info w-full validator"
-            placeholder="enter your password"
-            required
-            minLength={6}
-          />
-          <div className="validator-hint text-error">
-            Password is required (min 6 chars)
-          </div>
+            <legend className="fieldset-legend">
+                Password <span className="text-error">*</span>
+            </legend>
+            {/* 1. Add a relative container to wrap the input and button */}
+            <div className="relative w-full">
+                <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    // 2. Add padding to the right of the input to make space for the icon
+                    className="input input-bordered input-info w-full validator pr-10"
+                    placeholder="enter your password"
+                    required
+                    minLength={6}
+                />
+                {/* 3. Position the button absolutely within the relative container */}
+                <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 z-10 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                    onClick={() => setShowPassword(!showPassword)}
+                >
+                    {showPassword ? (
+                        <BiHide size={20} />
+                    ) : (
+                        <BiShow size={20} />
+                    )}
+                </button>
+            </div>
+            <div className="validator-hint text-error mt-1">
+                Password is required (min 6 chars)
+            </div>
         </fieldset>
+
 
         {/* Role Field */}
         <fieldset className="fieldset w-full">
@@ -140,7 +165,9 @@ export default function SignupPage() {
             <option>Employer</option>
             <option>Job Seeker</option>
           </select>
-          <div className="validator-hint text-error">Please select your role</div>
+          <div className="validator-hint text-error">
+            Please select your role
+          </div>
         </fieldset>
 
         <button

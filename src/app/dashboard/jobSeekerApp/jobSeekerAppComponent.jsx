@@ -108,7 +108,9 @@ export default function DashboardJobSeeker() {
         </div>
 
         {/* Job Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          (applications.length > 0 && applications.some(app => app.jobExists)) ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {applications.map(
             (app) =>
               app.jobExists && (
@@ -170,6 +172,15 @@ export default function DashboardJobSeeker() {
               )
           )}
         </div>
+          ) : (
+            <div className="text-center">
+              <h2 className="text-2xl font-bold">No Applications Found</h2>
+              <p className="text-gray-500">
+                You have not applied for any jobs yet.
+              </p>
+            </div>
+          )
+        }
       </div>
     </>
   );

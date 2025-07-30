@@ -108,7 +108,8 @@ export default function DashboardEmployer() {
       </div>
 
       {/* Job Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        dummyJobs.length > 0 ? (<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {dummyJobs.map((job) => (
           <div key={job._id} className="card bg-base-100 shadow-lg border border-base-200">
             <div className="card-body">
@@ -128,7 +129,12 @@ export default function DashboardEmployer() {
             </div>
           </div>
         ))}
-      </div>
+      </div>) : (
+        <div className="text-center">
+          <h2 className="text-2xl font-bold">No Jobs Posted by You</h2>
+        </div>
+      )
+      }
 
       
     </div>

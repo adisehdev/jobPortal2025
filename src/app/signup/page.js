@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { BiHide, BiShow } from "react-icons/bi";
 import {toast,Toaster} from "react-hot-toast";
 
 export default function SignupPage() {
@@ -10,6 +11,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [contactNumber, setContactNumber] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
@@ -110,15 +112,31 @@ export default function SignupPage() {
           <legend className="fieldset-legend">
             Password <span className="text-error">*</span>
           </legend>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input input-bordered input-info w-full validator"
-            placeholder="enter your password"
-            required
-            minLength={6}
-          />
+          <div className="relative w-full">
+                <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    // 2. Add padding to the right of the input to make space for the icon
+                    className="input input-bordered input-info w-full validator pr-10"
+                    placeholder="enter your password"
+                    required
+                    minLength={6}
+                />
+                {/* 3. Position the button absolutely within the relative container */}
+                <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 z-10 flex items-center pr-3 text-gray-500 hover:text-gray-700"
+                    onClick={() => setShowPassword(!showPassword)}
+                >
+                    {showPassword ? (
+                        <BiHide size={20} />
+                    ) : (
+                        <BiShow size={20} />
+                    )}
+                </button>
+            </div>
           <div className="validator-hint text-error text-sm mt-1">Password is required (min 6 chars)</div>
         </fieldset>
 

@@ -54,8 +54,10 @@ export default function ReviewPage() {
         return <div className="text-center">Error: {error}</div>;
     }
 
-    if (!applications || applications.length === 0) {
-        return <div className="text-center">No applications found.</div>;
+    if (!applications || applications.length === 0 || applications.every(app => !app.jobExists)) {
+        return <div className="text-center">
+          <h2 className="text-2xl font-bold">No Applications Found</h2>
+        </div>
     }
 
     return (
