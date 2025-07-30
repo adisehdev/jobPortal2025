@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react"; 
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { credentialLogin } from "../actions";
 import { useSession } from "next-auth/react";
@@ -13,6 +14,8 @@ export default function SignupPage() {
   const [role, setRole] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/"; // Default redirect to home if not specified
   const { data: session, status } = useSession(); // Get status to know when session data is loaded
 
   // Use useEffect to handle redirection after the component has rendered
@@ -58,7 +61,7 @@ export default function SignupPage() {
         console.log("Login successful:", response);
         setError(""); // Clear any previous errors
         
-        router.push("/"); // Redirect to home page on success
+        router.push(redirect); // Redirect to home page on success or specified redirect
         toast.success("Login successful!",{duration: 3000});
       }
     } catch (error) {

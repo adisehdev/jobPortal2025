@@ -39,7 +39,7 @@ export default async function JobsPreview() {
               </p>
               <p className="text-base">{job.description.slice(0, 400) + "..."}</p>
               <div className="card-actions mt-4">
-                <Link href={session ? `/jobs/${job._id}` : `/login`}>
+                <Link href={session ? `/jobs/${job._id}` : `/login?redirect=/jobs/${job._id}`} className="w-full">
                   <button className="btn btn-info btn-outline btn-sm w-full">{session ? "View Details" : "Login to view Details"}</button>
                 </Link>
               </div>

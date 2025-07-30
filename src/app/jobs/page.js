@@ -174,7 +174,7 @@ export default function JobsPage() {
                   {job.description || "No description available."}
                 </p>
                 <div className="card-actions mt-4 justify-end">
-                  <Link href={session?.user ? `/jobs/${job._id || job.id}` : "/login"} passHref>
+                  <Link href={session?.user ? `/jobs/${job._id || job.id}` : `/login?redirect=/jobs/${job._id || job.id}`} passHref>
                     <button className="btn btn-info btn-outline btn-sm">
                       {session?.user ? "View Details" : "Login to View"}
                     </button>
