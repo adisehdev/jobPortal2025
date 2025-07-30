@@ -131,12 +131,12 @@ export default function DashboardJobSeeker() {
                         <div className="text-sm font-semibold">
                           Status:{" "}
                           <span
-                            className={`px-2 py-1 rounded-full text-white ${
+                            className={`px-2 py-1 rounded-full text-sm border-1 ${
                               app.applicationStatus === "Accepted"
-                                ? "bg-green-500"
+                                ? "border-accent"
                                 : app.applicationStatus === "Rejected"
-                                ? "bg-red-500"
-                                : "bg-yellow-500"
+                                ? "border-error"
+                                : "border-warning"
                             }`}
                           >
                             {app.applicationStatus}
