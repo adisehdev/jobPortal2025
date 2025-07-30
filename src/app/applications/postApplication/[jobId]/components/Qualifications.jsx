@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 
 export default function Qualifications({ data, handleFormData ,fileRef}) {
     return (
-        <div className="container mx-auto mt-20 mb-25 p-6 border-2 border-base-100 rounded-lg">
-            <h1 className="text-3xl font-bold mb-6">Qualifications</h1>
+        <div className="container mx-auto space-y-4 p-6 rounded-lg">
+            
             <form className="space-y-4">
                 <fieldset className="fieldset w-full">
                     <label className="text-lg">Resume<span className="text-error">*</span></label>

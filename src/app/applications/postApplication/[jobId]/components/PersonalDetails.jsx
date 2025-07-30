@@ -1,85 +1,91 @@
 import React from "react";
-import { useState, useEffect } from "react";
-
 
 export default function PersonalDetails({ data, handleFormData }) {
-
-        
-    
-        return (
-        <div className="container mx-auto mt-20 mb-25 p-6 border-2 border-base-100 rounded-lg">
-            <h1 className="text-3xl font-bold mb-6">Personal Details</h1>
-            <form  className="space-y-4">
-                <fieldset className="fieldset w-full">
-                    <label className="text-lg">First Name<span className="text-error">*</span></label>
-                    <input
-                        name="firstName"
-                        value={data.firstName || ""}
-                        onChange={(e) => handleFormData("firstName", e.target.value)}
-                        type="text"
-                        className="input input-bordered input-info w-full"
-                        placeholder="Enter the job title"
-                        required
-                    />
-                </fieldset>
-
-                <fieldset className="fieldset w-full">
-                    <label className="text-lg">Last Name <span className="text-error">*</span></label>
-                    <input
-                        name="lastName"
-                        value={data.lastName || ""}
-                        onChange={(e) => handleFormData("lastName", e.target.value)}
-                        type="text"
-                        className="input input-bordered input-info w-full"
-                        placeholder="Enter the last name"
-                        required
-                    />
-                </fieldset>
-
-                <fieldset className="fieldset w-full">
-                    <label className="text-lg">Email <span className="text-error">*</span></label>
-                    <input
-                        name="email"
-                        value={data.email || ""}
-                        onChange={(e) => handleFormData("email", e.target.value)}
-                        
-                        required
-                        placeholder="Enter email address"
-                        type="email"
-                        className="input input-bordered input-info w-full"
-                    ></input>
-                </fieldset>
-
-                {/* Add other fields similarly */}
-                <fieldset className="fieldset w-full">
-                    <label className="text-lg">address<span className="text-error">*</span></label>
-                    <input
-                        name="address"
-                        value={data.address || ""}
-                        onChange={(e) => handleFormData("address", e.target.value)}
-                        type="text"
-                        className="input input-bordered input-info w-full"
-                        placeholder="Enter address"
-                    />
-                </fieldset>
-
-                <fieldset className="fieldset w-full">
-                    <label className="text-lg">Contact Number</label>
-                    <input
-                        name="contactNumber"
-                        value={data.contactNumber || ""}
-                        onChange={(e) => handleFormData("contactNumber", e.target.value)}
-                        type="text"
-                        className="input input-bordered input-info w-full"
-                        placeholder="Enter contact number"
-                    />
-                </fieldset>
-
-                
-                
-                
-            </form>
+  return (
+    // This component renders only the form fields for better reusability.
+    // The parent component should handle the title and main container.
+    <div className="space-y-4 py-4">
+      {/* Flex container for First and Last Name */}
+      <div className="flex flex-col md:flex-row md:gap-4">
+        {/* First Name */}
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">First Name<span className="text-error">*</span></span>
+          </label>
+          <input
+            type="text"
+            name="firstName"
+            value={data.firstName || ""}
+            onChange={(e) => handleFormData("firstName", e.target.value)}
+            placeholder="Enter first name"
+            className="input input-bordered input-info w-full"
+            required
+          />
         </div>
-    )
-    
+
+        {/* Last Name */}
+        <div className="form-control w-full mt-4 md:mt-0">
+          <label className="label">
+            <span className="label-text">Last Name<span className="text-error">*</span></span>
+          </label>
+          <input
+            type="text"
+            name="lastName"
+            value={data.lastName || ""}
+            onChange={(e) => handleFormData("lastName", e.target.value)}
+            placeholder="Enter last name"
+            className="input input-bordered input-info w-full"
+            required
+          />
+        </div>
+      </div>
+
+      {/* Email */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text">Email<span className="text-error">*</span></span>
+        </label>
+        <input
+          type="email"
+          name="email"
+          value={data.email || ""}
+          onChange={(e) => handleFormData("email", e.target.value)}
+          placeholder="Enter email address"
+          className="input input-bordered input-info w-full"
+          required
+        />
+      </div>
+
+      {/* Address */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text">Address<span className="text-error">*</span></span>
+        </label>
+        <input
+          type="text"
+          name="address"
+          value={data.address || ""}
+          onChange={(e) => handleFormData("address", e.target.value)}
+          placeholder="Enter address"
+          className="input input-bordered input-info w-full"
+          required
+        />
+      </div>
+
+      {/* Contact Number */}
+      <div className="form-control w-full">
+        <label className="label">
+          <span className="label-text">Contact Number</span>
+        </label>
+        <input
+          type="text"
+          name="contactNumber"
+          value={data.contactNumber || ""}
+          onChange={(e) => handleFormData("contactNumber", e.target.value)}
+          placeholder="Enter contact number"
+          className="input input-bordered input-info w-full"
+        />
+      </div>
+    </div>
+  );
 }

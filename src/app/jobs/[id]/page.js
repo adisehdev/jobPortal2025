@@ -2,6 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+
 import Link from "next/link";
 
 export default function JobPage() {
@@ -11,6 +12,7 @@ export default function JobPage() {
     const [error, setError] = useState(null);
     const { data: session, status } = useSession();
     const router = useRouter();
+    
 
     useEffect(() => {
         const fetchJob = async () => {
@@ -46,8 +48,8 @@ export default function JobPage() {
             alert("Only users with a Job Seeker account can apply for jobs.");
             return;
         }
-        router.push(`/applications/postApplication/${job._id}`);
-    };
+        
+        router.push(`/applications/postApplication/${job._id}`);} // Redirect to the application page
 
     if (loading) {
         return (
