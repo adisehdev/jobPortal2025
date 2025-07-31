@@ -52,12 +52,7 @@ export default function SignupPage() {
     setError(""); // Reset error state
 
     try {
-      console.log(
-        "Login init : " + "email:",
-        email + " password:",
-        password + " role:",
-        role
-      );
+      
       const response = await credentialLogin(formData);
       console.log("Login response : ", response);
 

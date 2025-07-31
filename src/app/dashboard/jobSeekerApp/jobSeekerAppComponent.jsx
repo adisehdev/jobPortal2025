@@ -133,10 +133,10 @@ export default function DashboardJobSeeker() {
                           <span
                             className={`px-2 py-1 rounded-full text-sm border-1 ${
                               app.applicationStatus === "Accepted"
-                                ? "border-accent"
+                                ? "border-accent text-accent"
                                 : app.applicationStatus === "Rejected"
-                                ? "border-error"
-                                : "border-warning"
+                                ? "border-error text-error"
+                                : "border-warning text-warning"
                             }`}
                           >
                             {app.applicationStatus}

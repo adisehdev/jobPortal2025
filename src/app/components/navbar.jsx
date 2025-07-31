@@ -154,14 +154,14 @@ export default function Navbar() {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-white/70 backdrop-blur-lg rounded-box w-52"
               >
                 <li>
-                  <a className="font-semibold text-base px-4 py-2 cursor-default">
+                  <Link href={""} className="font-semibold text-base px-4 py-2 cursor-default">
                     Hi, {username} {session?.user?.role === "Employer" ? "( Employer )" : "( Job Seeker )"}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a onClick={handleSignOut} className="text-error font-bold px-4 py-2 rounded-md">
+                  <Link href={""} onClick={handleSignOut} className="text-error font-bold px-4 py-2 rounded-md">
                     Logout
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
