@@ -6,6 +6,7 @@ import connectDB from "@/lib/dbConnection";
 import { v2 as cloudinary } from 'cloudinary';
 import streamifier from 'streamifier'; // Import streamifier
 import { calculateTextSimilarity } from "@/utils/tfIdfHelper";
+import {runResumeScreener} from "@/utils/resumeScreenerAgent";
 
 
 
@@ -151,6 +152,10 @@ export async function POST(req) {
         console.log("Application Data before save:", applicationData);
         console.log("Application Data:", application);
         await application.save();
+
+        runResumeScreener(application._id.toString()).catch((err) =>
+  console.error("[ApplicationAPI] Agent trigger error:", err)
+);
 
         return NextResponse.json(
             { message: "Application data received successfully" },

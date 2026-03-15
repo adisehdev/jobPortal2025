@@ -160,23 +160,51 @@ export default function ReviewAppPage() {
                                     <DetailItem label="Location">{application.jobId?.location || "N/A"}</DetailItem>
                                     <DetailItem label="Experience Required">{application.jobId?.experienceLevel || "N/A"}</DetailItem>
                                 </div>
+                                {/* AI Analysis Section */}
+                                {application.coverLetter && application.aiAnalysisStatus === "completed" && application.aiJustification && (
+                                    <div className="mt-8 animate-in fade-in slide-in-from-right-4 duration-700">
+                                        <div className="collapse collapse-arrow bg-primary/5 border border-primary/20 shadow-sm group">
+                                            <input type="checkbox" className="peer" defaultChecked /> 
+                                            <div className="collapse-title flex items-center gap-2 py-3 px-4 min-h-0">
+                                                <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                                                <h2 className="text-sm font-bold text-primary uppercase tracking-wider">AI Analysis</h2>
+                                            </div>
+                                            <div className="collapse-content px-4 pb-4">
+                                                <div className="divider divider-primary/10 m-0 mb-3"></div>
+                                                <article className="prose prose-sm max-w-none text-base-content/80 leading-relaxed italic border-l-2 border-primary/30 pl-3">
+                                                    {application.aiJustification}
+                                                </article>
+                                                {application.aiMatchScore && (
+                                                    <div className="mt-3 flex items-center gap-2 pt-2 border-t border-primary/5">
+                                                        <span className="text-[10px] font-bold text-base-content/50 uppercase tracking-widest">Score:</span>
+                                                        <div className="badge badge-primary badge-sm font-black">{application.aiMatchScore}%</div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
+
+                            
                         </div>
+
+                    
+                        
                         
                         {/* --- Actions Bar --- */}
-                        <div className="divider my-8"></div>
+                        <div className="divider my-6"></div>
                         <footer className="flex flex-wrap items-center justify-between gap-4">
                              {/* Secondary Actions */}
                             <div className="flex items-center gap-2">
-                                <a href={application.resume} target="_blank" rel="noopener noreferrer" className={`btn btn-sm btn-outline btn-base-100 ${!application.resume && 'btn-disabled'}`}>
+                                <a href={application.resume} target="_blank" rel="noopener noreferrer" className={`btn btn-sm btn-outline btn-ghost ${!application.resume && 'btn-disabled'}`}>
                                     View Resume
                                 </a>
-                                
                             </div>
 
                              {/* Primary Actions */}
                             <div className="flex items-center gap-3">
-                                <button className="btn btn-sm btn-error" onClick={handleApplicationStatus("Rejected")} disabled={submitting}>
+                                <button className="btn btn-sm btn-error btn-outline" onClick={handleApplicationStatus("Rejected")} disabled={submitting}>
                                     {submitting ? <span className="loading loading-spinner"></span> : "Reject"}
                                 </button>
                                 <button className="btn btn-sm btn-success" onClick={handleApplicationStatus("Accepted")} disabled={submitting}>
@@ -184,7 +212,7 @@ export default function ReviewAppPage() {
                                 </button>
                             </div>
                         </footer>
-                         {error && <div role="alert" className="alert alert-error text-xs mt-4"><svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{error}</div>}
+                         {error && <div role="alert" className="alert alert-error text-xs mt-4 py-2"><svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-4 w-4" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{error}</div>}
                     </div>
                 </div>
             </div>
