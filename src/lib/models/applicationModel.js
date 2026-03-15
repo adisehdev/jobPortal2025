@@ -104,6 +104,10 @@ const applicationSchema = new mongoose.Schema({
     type : String //stores the AI justification for the match score
   },
 
+  aiRecommendation : {
+    type : String //stores the AI recommendation (Shortlist, Review, Reject)
+  },
+
   aiAnalysisStatus : {
     type : String,
     enum : ["not_started","in_progress","completed","failed"],
